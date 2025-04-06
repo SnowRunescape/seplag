@@ -1,0 +1,21 @@
+FROM php:8.4-fpm
+
+ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0"
+
+RUN apt-get update && \
+    apt-get install -y libzip-dev libpng-dev libjpeg-dev libfreetype6-dev git unzip && \
+    apt-get clean
+
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install opcache pdo pdo_mysql zip
+RUN docker-php-ext-install -j$(nproc) gd
+
+ADD opcache.ini "$PHP_INI_DIR/conf.d/opcache.ini"
+
+WORKDIR /var/www
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+EXPOSE 9000
+
+ENTRYPOINT ["php-fpm"]
