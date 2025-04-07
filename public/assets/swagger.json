@@ -1,0 +1,154 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API de Servidores",
+      "version": "1.0.0",
+      "description": "Documenta\u00e7\u00e3o da API para gerenciamento de servidores efetivos, tempor\u00e1rios, unidades e lota\u00e7\u00f5es."
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8080/api"
+      }
+    ],
+    "paths": {
+      "/auth/login": {
+        "post": {
+          "summary": "Login",
+          "tags": [
+            "Autentica\u00e7\u00e3o"
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "email",
+                    "password"
+                  ]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Login realizado com sucesso"
+            },
+            "401": {
+              "description": "Credenciais inv\u00e1lidas"
+            }
+          }
+        }
+      },
+      "/auth/refresh": {
+        "post": {
+          "summary": "Renova o token JWT",
+          "tags": [
+            "Autentica\u00e7\u00e3o"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Token renovado com sucesso"
+            }
+          }
+        }
+      },
+      "/servidores/efetivos": {
+        "get": {
+          "summary": "Lista todos os servidores efetivos",
+          "tags": [
+            "Servidor Efetivo"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista retornada com sucesso"
+            }
+          }
+        },
+        "post": {
+          "summary": "Cria um novo servidor efetivo",
+          "tags": [
+            "Servidor Efetivo"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Criado com sucesso"
+            }
+          }
+        }
+      },
+      "/fotos": {
+        "post": {
+          "summary": "Upload de fotos para o MinIO",
+          "tags": [
+            "Fotos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fotos": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "binary"
+                      }
+                    }
+                  },
+                  "required": [
+                    "fotos"
+                  ]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Upload realizado com sucesso"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    }
+}
