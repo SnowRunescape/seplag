@@ -17,13 +17,11 @@ class Lotacao extends Model
         'pes_id',
     ];
 
-    // Relacionamento N:1 com pessoa
     public function pessoa()
     {
         return $this->belongsTo(Pessoa::class, 'pes_id', 'pes_id');
     }
 
-    // Relacionamento N:1 com unidade
     public function unidade()
     {
         return $this->belongsTo(Unidade::class, 'unid_id', 'unid_id');

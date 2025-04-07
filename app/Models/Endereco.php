@@ -22,14 +22,12 @@ class Endereco extends Model
         return $this->belongsTo(Cidade::class, 'cid_id', 'cid_id');
     }
 
-    // Utiliza o modelo de pivot PessoaEndereco
     public function pessoas()
     {
         return $this->belongsToMany(Pessoa::class, 'pessoa_endereco', 'end_id', 'pes_id')
             ->using(PessoaEndereco::class);
     }
 
-    // Utiliza o modelo de pivot UnidadeEndereco
     public function unidades()
     {
         return $this->belongsToMany(Unidade::class, 'unidade_endereco', 'end_id', 'unid_id')

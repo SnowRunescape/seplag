@@ -17,7 +17,6 @@ class FotoPessoa extends Model
         'fop_hash',
     ];
 
-    // Relacionamento N:1 com pessoa
     public function pessoa()
     {
         return $this->belongsTo(Pessoa::class, 'pes_id', 'pes_id');

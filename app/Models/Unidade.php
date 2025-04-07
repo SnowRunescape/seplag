@@ -20,7 +20,6 @@ class Unidade extends Model
         return $this->hasMany(Lotacao::class, 'unid_id', 'unid_id');
     }
 
-    // Utiliza o modelo de pivot UnidadeEndereco
     public function enderecos()
     {
         return $this->belongsToMany(Endereco::class, 'unidade_endereco', 'unid_id', 'end_id')

@@ -8,7 +8,6 @@ class Cidade extends Model
 {
     protected $table = 'cidade';
     protected $primaryKey = 'cid_id';
-    public $timestamps = false;
 
     protected $fillable = [
         'cid_nome',
