@@ -3,12 +3,10 @@ FROM php:8.4-fpm
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0"
 
 RUN apt-get update && \
-    apt-get install -y libzip-dev libpng-dev libjpeg-dev libfreetype6-dev git unzip && \
+    apt-get install -y libzip-dev libpng-dev libjpeg-dev libfreetype6-dev libpq-dev git unzip && \
     apt-get clean
 
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install opcache pdo pdo_mysql zip
-RUN docker-php-ext-install -j$(nproc) gd
+RUN docker-php-ext-install opcache pdo pdo_pgsql zip
 
 ADD opcache.ini "$PHP_INI_DIR/conf.d/opcache.ini"
 
