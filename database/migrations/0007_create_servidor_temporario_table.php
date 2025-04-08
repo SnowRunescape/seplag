@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('servidor_temporario', function (Blueprint $table) {
             $table->unsignedInteger('pes_id')->primary();
-            $table->date('ser_data_inicio');
-            $table->date('ser_data_fim');
+            $table->date('st_data_admissao');
+            $table->date('st_data_demissao');
             $table->timestamps();
 
             $table->foreign('pes_id')->references('pes_id')->on('pessoa')->onDelete('cascade');

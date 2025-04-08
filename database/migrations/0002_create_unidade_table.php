@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('unidade', function (Blueprint $table) {
             $table->increments('unid_id');
-            $table->string('unid_nome');
-            $table->string('unid_sigla');
+            $table->string('unid_nome', 200);
+            $table->string('unid_sigla', 20);
             $table->timestamps();
         });
     }

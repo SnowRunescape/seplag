@@ -12,6 +12,7 @@ class Pessoa extends Model
     protected $fillable = [
         'pes_nome',
         'pes_data_nascimento',
+        'pes_sexo',
         'pes_mae',
         'pes_pai',
     ];

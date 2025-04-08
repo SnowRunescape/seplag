@@ -12,6 +12,7 @@ class Endereco extends Model
     protected $fillable = [
         'end_tipo_logradouro',
         'end_logradouro',
+        'end_numero',
         'end_bairro',
         'cid_id',
     ];

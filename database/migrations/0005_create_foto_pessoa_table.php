@@ -15,8 +15,8 @@ return new class extends Migration
             $table->increments('fop_id');
             $table->unsignedInteger('pes_id');
             $table->date('fop_data');
-            $table->string('fop_bucket');
-            $table->string('fop_hash');
+            $table->string('fop_bucket', 50);
+            $table->string('fop_hash', 50);
             $table->timestamps();
 
             $table->foreign('pes_id')->references('pes_id')->on('pessoa')->onDelete('cascade');

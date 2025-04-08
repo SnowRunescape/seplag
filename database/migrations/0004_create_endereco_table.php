@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments('end_id');
             $table->string('end_tipo_logradouro');
             $table->string('end_logradouro');
+            $table->integer('end_numero');
             $table->string('end_bairro');
             $table->unsignedInteger('cid_id');
             $table->timestamps();

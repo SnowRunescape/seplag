@@ -11,8 +11,8 @@ class ServidorTemporario extends Model
 
     protected $fillable = [
         'pes_id',
-        'ser_data_inicio',
-        'ser_data_fim',
+        'st_data_admissao',
+        'st_data_demissao',
     ];
 
     public function pessoa()

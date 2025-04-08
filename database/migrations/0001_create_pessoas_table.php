@@ -15,8 +15,9 @@ return new class extends Migration
             $table->increments('pes_id');
             $table->string('pes_nome');
             $table->date('pes_data_nascimento');
-            $table->string('pes_mae');
-            $table->string('pes_pai');
+            $table->string('pes_sexo', 9);
+            $table->string('pes_mae', 200);
+            $table->string('pes_pai', 200);
             $table->timestamps();
         });
     }

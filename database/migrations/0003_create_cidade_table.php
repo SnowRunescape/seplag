@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cidade', function (Blueprint $table) {
             $table->increments('cid_id');
-            $table->string('cid_nome');
+            $table->string('cid_nome', 200);
             $table->string('cid_uf', 2);
             $table->timestamps();
         });
