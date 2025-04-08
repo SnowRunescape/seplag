@@ -15,14 +15,14 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::middleware(['auth:api'])->group(function () {
     Route::post('/auth/refresh', [AuthController::class, 'refresh']);
 
+    Route::get('/unidades/endereco-funcional', [EnderecoFuncionalController::class, 'index']);
+
     Route::apiResource('servidores/efetivos', ServidorEfetivoController::class);
     Route::apiResource('servidores/temporarios', ServidorTemporarioController::class);
     Route::apiResource('unidades', UnidadeController::class);
     Route::apiResource('lotacoes', LotacaoController::class);
 
     Route::get('/unidades/{unidade}/servidores/efetivos', [UnidadeServidorEfetivoController::class, 'index']);
-
-    Route::get('endereco-funcional', [EnderecoFuncionalController::class, 'index']);
 
     Route::post('fotos', [FotoController::class, 'upload']);
 });
