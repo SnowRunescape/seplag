@@ -17,10 +17,11 @@ class ServidorEfetivoController extends Controller
      */
     public function index()
     {
-        $pessoas = Pessoa::with([
+        $pessoas = Pessoa::whereHas('servidorEfetivo')->with([
             'servidorEfetivo',
             'enderecos.cidade',
-        ])->paginate(10);
+        ])
+        ->paginate(10);
 
         return response()->json($pessoas);
     }
@@ -49,7 +50,7 @@ class ServidorEfetivoController extends Controller
      */
     public function show(int $id)
     {
-        $pessoa = Pessoa::with([
+        $pessoa = Pessoa::whereHas('servidorEfetivo')->with([
             'servidorEfetivo',
             'enderecos.cidade',
         ])->findOrFail($id);

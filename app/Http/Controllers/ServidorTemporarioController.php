@@ -2,41 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\ServidorTemporario\CreateServidorTemporarioAction;
+use App\Actions\ServidorTemporario\UpdateServidorTemporarioAction;
 use App\Http\Requests\ServidorTemporarioRequest;
-use App\Models\ServidorTemporario;
-use Illuminate\Http\Request;
+use App\Http\Requests\ServidorTemporario\ServidorTemporarioUpdateRequest;
+use App\Models\Pessoa;
 
 class ServidorTemporarioController extends Controller
 {
     public function index()
     {
-        $servidores = ServidorTemporario::paginate(10);
-        return response()->json($servidores);
+        $pessoas = Pessoa::whereHas('servidorTemporario')->with([
+            'servidorTemporario',
+            'enderecos.cidade',
+        ])
+        ->paginate(10);
+
+        return response()->json($pessoas);
     }
 
-    public function show($id)
+    public function show(int $id)
     {
-        $servidor = ServidorTemporario::findOrFail($id);
-        return response()->json($servidor);
+        $pessoa = Pessoa::whereHas('servidorTemporario')->with([
+            'servidorTemporario',
+            'enderecos.cidade',
+        ])->findOrFail($id);
+
+        return response()->json($pessoa);
     }
 
-    public function store(ServidorTemporarioRequest $request)
+    public function store(CreateServidorTemporarioAction $action, ServidorTemporarioRequest $request)
     {
-        $servidor = ServidorTemporario::create($request->validated());
-        return response()->json($servidor, 201);
+        $pessoa = $action->perform($request->validated());
+
+        return response()->json($pessoa, 201);
     }
 
-    public function update(ServidorTemporarioRequest $request, $id)
+    public function update(ServidorTemporarioUpdateRequest $request, int $id)
     {
-        $servidor = ServidorTemporario::findOrFail($id);
-        $servidor->update($request->validated());
-        return response()->json($servidor);
+        $pessoa = Pessoa::findOrFail($id);
+
+        $action = new UpdateServidorTemporarioAction($pessoa);
+        $action->perform($request->validated());
+
+        $pessoa->load([
+            'servidorTemporario',
+            'enderecos.cidade',
+        ]);
+
+        return response()->json($pessoa);
     }
 
     public function destroy($id)
     {
-        $servidor = ServidorTemporario::findOrFail($id);
-        $servidor->delete();
+        $pessoa = Pessoa::whereHas('servidorTemporario')->findOrFail($id);
+        $pessoa->delete();
 
         return response()->json(null, 204);
     }
