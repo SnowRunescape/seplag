@@ -33,9 +33,9 @@ class ServidorEfetivoController extends Controller
         CreateServidorEfetivadoAction $action,
         ServidorEfetivoRequest $request
     ) {
-        $servidorEfetivo = $action->perform($request->validated());
+        $pessoa = $action->perform($request->validated());
 
-        return response()->json($servidorEfetivo, 201);
+        return response()->json($pessoa, 201);
     }
 
     /**
@@ -79,44 +79,5 @@ class ServidorEfetivoController extends Controller
         $servidorEfetivo->delete();
 
         return response()->json(null, 204);
-    }
-
-    /**
-     * Consulta os servidores efetivos lotados em uma determinada unidade.
-     * Retorna: Nome, idade, unidade de lotação e fotografia.
-     *
-     * @param  int  $unid_id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function byUnidade(int $unid_id)
-    {
-        $servidores = ServidorEfetivo::with(['pessoa.lotacoes.unidade', 'pessoa.fotos'])
-            ->whereHas('pessoa.lotacoes', function ($query) use ($unid_id) {
-                $query->where('unid_id', $unid_id);
-            })
-            ->paginate(10);
-
-        $data = $servidores->getCollection()->transform(function ($servidor) {
-            $pessoa = $servidor->pessoa;
-            $idade = Carbon::parse($pessoa->pes_data_nascimento)->age;
-
-            // Considera a primeira lotação para obter a unidade
-            $unidade = $pessoa->lotacoes->first()
-                ? optional($pessoa->lotacoes->first()->unidade)->unid_nome
-                : null;
-
-            // Considera a primeira foto, se houver
-            $fotografia = $pessoa->fotos->first() ? $pessoa->fotos->first()->fop_hash : null;
-
-            return [
-                'nome'        => $pessoa->pes_nome,
-                'idade'       => $idade,
-                'unidade'     => $unidade,
-                'fotografia'  => $fotografia,
-            ];
-        });
-
-        $servidores->setCollection($data);
-        return response()->json($servidores);
     }
 }
