@@ -7,21 +7,22 @@ use App\Actions\UpdateServidorEfetivadoAction;
 use App\Http\Requests\ServidorEfetivoRequest;
 use App\Http\Requests\ServidorEfetivoUpdateRequest;
 use App\Models\Pessoa;
-use App\Models\ServidorEfetivo;
 
 class ServidorEfetivoController extends Controller
 {
     /**
      * Exibe uma listagem paginada de Servidores Efetivos.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        $servidores = ServidorEfetivo::paginate(10);
+        $pessoas = Pessoa::with([
+            'servidorEfetivo',
+            'enderecos.cidade',
+        ])->paginate(10);
 
-        return response()->json($servidores);
+        return response()->json($pessoas);
     }
 
     /**
