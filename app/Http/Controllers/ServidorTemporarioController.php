@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\ServidorTemporario\CreateServidorTemporarioAction;
 use App\Actions\ServidorTemporario\UpdateServidorTemporarioAction;
-use App\Http\Requests\ServidorTemporarioRequest;
+use App\Http\Requests\ServidorTemporario\ServidorTemporarioCreateRequest;
 use App\Http\Requests\ServidorTemporario\ServidorTemporarioUpdateRequest;
 use App\Models\Pessoa;
 
@@ -31,7 +31,7 @@ class ServidorTemporarioController extends Controller
         return response()->json($pessoa);
     }
 
-    public function store(CreateServidorTemporarioAction $action, ServidorTemporarioRequest $request)
+    public function store(CreateServidorTemporarioAction $action, ServidorTemporarioCreateRequest $request)
     {
         $pessoa = $action->perform($request->validated());
 

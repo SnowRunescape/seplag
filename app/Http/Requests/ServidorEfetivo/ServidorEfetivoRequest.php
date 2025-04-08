@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\ServidorEfetivo;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ServidorEfetivoRequest extends FormRequest
+class ServidorEfetivoCreateRequest extends FormRequest
 {
     public function rules(): array
     {

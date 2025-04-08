@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Actions\ServidorEfetivo\CreateServidorEfetivadoAction;
 use App\Actions\ServidorEfetivo\UpdateServidorEfetivadoAction;
-use App\Http\Requests\ServidorEfetivoRequest;
-use App\Http\Requests\ServidorEfetivoUpdateRequest;
+use App\Http\Requests\ServidorEfetivo\ServidorEfetivoCreateRequest;
+use App\Http\Requests\ServidorEfetivo\ServidorEfetivoUpdateRequest;
 use App\Models\Pessoa;
 
 class ServidorEfetivoController extends Controller
@@ -30,12 +30,12 @@ class ServidorEfetivoController extends Controller
      * Armazena um novo registro de Servidor Efetivo.
      *
      * @param  \App\Actions\ServidorEfetivo\CreateServidorEfetivadoAction $action
-     * @param  \App\Http\Requests\ServidorEfetivoRequest $request
+     * @param  \App\Http\Requests\ServidorEfetivo\ServidorEfetivoCreateRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(
         CreateServidorEfetivadoAction $action,
-        ServidorEfetivoRequest $request
+        ServidorEfetivoCreateRequest $request
     ) {
         $pessoa = $action->perform($request->validated());
 
@@ -61,7 +61,7 @@ class ServidorEfetivoController extends Controller
     /**
      * Atualiza um registro de Servidor Efetivo.
      *
-     * @param  \App\Http\Requests\ServidorEfetivoUpdateRequest $request
+     * @param  \App\Http\Requests\ServidorEfetivo\ServidorEfetivoUpdateRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(

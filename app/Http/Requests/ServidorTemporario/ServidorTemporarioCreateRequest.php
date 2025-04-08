@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\ServidorTemporario;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ServidorTemporarioRequest extends FormRequest
+class ServidorTemporarioCreateRequest extends FormRequest
 {
     public function rules(): array
     {
