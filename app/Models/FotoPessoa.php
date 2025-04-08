@@ -8,7 +8,6 @@ class FotoPessoa extends Model
 {
     protected $table = 'foto_pessoa';
     protected $primaryKey = 'fop_id';
-    public $timestamps = false;
 
     protected $fillable = [
         'pes_id',

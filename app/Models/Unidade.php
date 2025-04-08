@@ -8,7 +8,6 @@ class Unidade extends Model
 {
     protected $table = 'unidade';
     protected $primaryKey = 'unid_id';
-    public $timestamps = false;
 
     protected $fillable = [
         'unid_nome',

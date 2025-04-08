@@ -8,7 +8,6 @@ class ServidorTemporario extends Model
 {
     protected $table = 'servidor_temporario';
     protected $primaryKey = 'pes_id';
-    public $timestamps = false;
 
     protected $fillable = [
         'pes_id',

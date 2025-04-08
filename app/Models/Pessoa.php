@@ -8,7 +8,6 @@ class Pessoa extends Model
 {
     protected $table = 'pessoa';
     protected $primaryKey = 'pes_id';
-    public $timestamps = false;
 
     protected $fillable = [
         'pes_nome',

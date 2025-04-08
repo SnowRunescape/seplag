@@ -8,7 +8,6 @@ class ServidorEfetivo extends Model
 {
     protected $table = 'servidor_efetivo';
     protected $primaryKey = 'pes_id';
-    public $timestamps = false;
 
     protected $fillable = [
         'pes_id',

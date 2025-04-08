@@ -9,8 +9,11 @@ class LotacaoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'    => 'required|email',
-            'password' => 'required|string|min:6',
+            'pes_id'   => 'required|exists:pessoa,pes_id',
+            'unid_id'  => 'required|exists:unidade,unid_id',
+            'lot_data_lotacao'    => 'required|date',
+            'lot_data_remocao' => 'rrequired|date',
+            'lot_portaria' => 'required|string|max:100',
         ];
     }
 }

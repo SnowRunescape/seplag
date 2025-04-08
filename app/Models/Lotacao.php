@@ -8,13 +8,13 @@ class Lotacao extends Model
 {
     protected $table = 'lotacao';
     protected $primaryKey = 'lot_id';
-    public $timestamps = false;
 
     protected $fillable = [
-        'lot_data_inicio',
-        'lot_data_fim',
         'unid_id',
         'pes_id',
+        'lot_data_lotacao',
+        'lot_data_remocao',
+        'lot_portaria',
     ];
 
     public function pessoa()

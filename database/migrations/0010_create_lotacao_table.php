@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('lotacao', function (Blueprint $table) {
             $table->increments('lot_id');
-            $table->date('lot_data_inicio');
-            $table->date('lot_data_fim')->nullable();
             $table->unsignedInteger('unid_id');
             $table->unsignedInteger('pes_id');
+            $table->date('lot_data_lotacao');
+            $table->date('lot_data_remocao');
+            $table->string('lot_portaria', 100);
             $table->timestamps();
 
             $table->foreign('unid_id')->references('unid_id')->on('unidade')->onDelete('cascade');

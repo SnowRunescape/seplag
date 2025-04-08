@@ -8,7 +8,6 @@ class Endereco extends Model
 {
     protected $table = 'endereco';
     protected $primaryKey = 'end_id';
-    public $timestamps = false;
 
     protected $fillable = [
         'end_tipo_logradouro',
