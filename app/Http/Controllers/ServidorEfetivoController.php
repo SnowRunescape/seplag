@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateServidorEfetivadoAction;
+use App\Actions\UpdateServidorEfetivadoAction;
 use App\Http\Requests\ServidorEfetivoRequest;
 use App\Http\Requests\ServidorEfetivoUpdateRequest;
+use App\Models\Pessoa;
 use App\Models\ServidorEfetivo;
-use Carbon\Carbon;
 
 class ServidorEfetivoController extends Controller
 {
@@ -46,9 +47,12 @@ class ServidorEfetivoController extends Controller
      */
     public function show(int $id)
     {
-        $servidorEfetivo = ServidorEfetivo::findOrFail($id);
+        $pessoa = Pessoa::with([
+            'servidorEfetivo',
+            'enderecos.cidade',
+        ])->findOrFail($id);
 
-        return response()->json($servidorEfetivo);
+        return response()->json($pessoa);
     }
 
     /**
@@ -57,14 +61,21 @@ class ServidorEfetivoController extends Controller
      * @param  \App\Http\Requests\ServidorEfetivoUpdateRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ServidorEfetivoUpdateRequest $request)
-    {
-        $id = $request->id;
+    public function update(
+        ServidorEfetivoUpdateRequest $request,
+        int $id
+    ) {
+        $pessoa = Pessoa::findOrFail($id);
 
-        $servidorEfetivo = ServidorEfetivo::findOrFail($id);
-        $servidorEfetivo->update($request->validated());
+        $action = new UpdateServidorEfetivadoAction($pessoa);
+        $action->perform($request->validated());
 
-        return response()->json($servidorEfetivo);
+        $pessoa->load([
+            'servidorEfetivo',
+            'enderecos.cidade',
+        ]);
+
+        return response()->json($pessoa);
     }
 
     /**
@@ -75,8 +86,8 @@ class ServidorEfetivoController extends Controller
      */
     public function destroy(int $id)
     {
-        $servidorEfetivo = ServidorEfetivo::findOrFail($id);
-        $servidorEfetivo->delete();
+        $pessoa = Pessoa::findOrFail($id);
+        $pessoa->delete();
 
         return response()->json(null, 204);
     }

@@ -9,7 +9,12 @@ class ServidorEfetivoUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ser_data_nomeacao' => 'required|date',
+            'pes_nome' => 'sometimes|string|max:200',
+            'pes_data_nascimento' => 'sometimes|date',
+            'pes_sexo' => 'sometimes|string|in:masculino,feminino',
+            'pes_mae' => 'sometimes|string|max:200',
+            'pes_pai' => 'sometimes|string|max:200',
+            'se_matricula' => 'sometimes|string|max:20',
         ];
     }
 }
