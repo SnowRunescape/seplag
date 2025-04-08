@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateServidorEfetivadoAction;
 use App\Http\Requests\ServidorEfetivoRequest;
 use App\Http\Requests\ServidorEfetivoUpdateRequest;
 use App\Models\ServidorEfetivo;
-use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
 
 class ServidorEfetivoController extends Controller
@@ -29,9 +29,11 @@ class ServidorEfetivoController extends Controller
      * @param  \App\Http\Requests\ServidorEfetivoRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ServidorEfetivoRequest $request)
-    {
-        $servidorEfetivo = ServidorEfetivo::create($request->validated());
+    public function store(
+        CreateServidorEfetivadoAction $action,
+        ServidorEfetivoRequest $request
+    ) {
+        $servidorEfetivo = $action->perform($request->validated());
 
         return response()->json($servidorEfetivo, 201);
     }
