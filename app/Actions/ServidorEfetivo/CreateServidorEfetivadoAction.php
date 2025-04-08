@@ -15,28 +15,28 @@ class CreateServidorEfetivadoAction
     {
         return DB::transaction(function () use ($data) {
             $pessoa = Pessoa::create([
-                'pes_nome' => $data["pes_nome"],
-                'pes_data_nascimento' => $data["pes_data_nascimento"],
-                'pes_sexo' => $data["pes_sexo"],
-                'pes_mae' => $data["pes_mae"],
-                'pes_pai' => $data["pes_pai"],
+                'pes_nome' => $data['pes_nome'],
+                'pes_data_nascimento' => $data['pes_data_nascimento'],
+                'pes_sexo' => $data['pes_sexo'],
+                'pes_mae' => $data['pes_mae'],
+                'pes_pai' => $data['pes_pai'],
             ]);
 
             ServidorEfetivo::create([
                 'pes_id' => $pessoa->pes_id,
-                'se_matricula' => $data["se_matricula"],
+                'se_matricula' => $data['se_matricula'],
             ]);
 
             $endereco = Cidade::create([
-                'cid_nome' => $data["cid_nome"],
-                'cid_uf' => $data["cid_uf"],
+                'cid_nome' => $data['cid_nome'],
+                'cid_uf' => $data['cid_uf'],
             ]);
 
             $endereco = Endereco::create([
-                'end_tipo_logradouro' => $data["end_tipo_logradouro"],
-                'end_logradouro' => $data["end_logradouro"],
-                'end_numero' => $data["end_numero"],
-                'end_bairro' => $data["end_bairro"],
+                'end_tipo_logradouro' => $data['end_tipo_logradouro'],
+                'end_logradouro' => $data['end_logradouro'],
+                'end_numero' => $data['end_numero'],
+                'end_bairro' => $data['end_bairro'],
                 'cid_id' => $endereco->cid_id,
             ]);
 

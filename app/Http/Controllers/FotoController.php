@@ -2,52 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\FotoUploadRequest;
+use Illuminate\Support\Facades\Storage;
 
 class FotoController extends Controller
 {
     /**
-     * Realiza a autenticação do usuário e retorna o token JWT.
+     * Realiza o upload de uma ou mais fotografias para o MinIO e retorna links temporários.
      *
-     * @param  \App\Http\Requests\LoginRequest $request
+     * @param  \App\Http\Requests\FotoUploadRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(LoginRequest $request)
+    public function upload(FotoUploadRequest $request)
     {
-        $credentials = $request->only('email', 'password');
+        $links = [];
 
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        foreach ($request->file('fotos') as $file) {
+            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+
+            $path = Storage::disk('minio')->putFileAs('fotos', $file, $fileName);
+
+            $temporaryUrl = Storage::disk('minio')->temporaryUrl($path, now()->addMinutes(5));
+
+            $links[] = [
+                'file' => $fileName,
+                'url'  => $temporaryUrl,
+            ];
         }
 
-        return $this->respondWithToken($token);
-    }
-
-    /**
-     * Renova o token JWT atual.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh(): JsonResponse
-    {
-        $newToken = auth()->refresh();
-
-        return $this->respondWithToken($newToken);
-    }
-
-    /**
-     * Retorna a resposta com o token JWT, seu tipo e tempo de expiração.
-     *
-     * @param string $token
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken(string $token): JsonResponse
-    {
         return response()->json([
-            'access_token' => $token,
-            'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * 60,
+            'message' => 'Upload realizado com sucesso.',
+            'data'    => $links,
         ]);
     }
 }

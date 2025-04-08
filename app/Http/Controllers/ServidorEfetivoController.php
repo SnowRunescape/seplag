@@ -7,15 +7,16 @@ use App\Actions\ServidorEfetivo\UpdateServidorEfetivadoAction;
 use App\Http\Requests\ServidorEfetivo\ServidorEfetivoCreateRequest;
 use App\Http\Requests\ServidorEfetivo\ServidorEfetivoUpdateRequest;
 use App\Models\Pessoa;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ServidorEfetivoController extends Controller
 {
     /**
      * Exibe uma listagem paginada de Servidores Efetivos.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function index()
+    public function index(): JsonResource
     {
         $pessoas = Pessoa::whereHas('servidorEfetivo')->with([
             'servidorEfetivo',
@@ -23,7 +24,7 @@ class ServidorEfetivoController extends Controller
         ])
         ->paginate(10);
 
-        return response()->json($pessoas);
+        return JsonResource::collection($pessoas);
     }
 
     /**

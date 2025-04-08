@@ -7,6 +7,7 @@ use App\Actions\ServidorTemporario\UpdateServidorTemporarioAction;
 use App\Http\Requests\ServidorTemporario\ServidorTemporarioCreateRequest;
 use App\Http\Requests\ServidorTemporario\ServidorTemporarioUpdateRequest;
 use App\Models\Pessoa;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ServidorTemporarioController extends Controller
 {
@@ -18,7 +19,7 @@ class ServidorTemporarioController extends Controller
         ])
         ->paginate(10);
 
-        return response()->json($pessoas);
+        return JsonResource::collection($pessoas);
     }
 
     public function show(int $id)

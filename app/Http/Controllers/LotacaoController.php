@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Lotacao\LotacaoCreateRequest;
 use App\Http\Requests\Lotacao\LotacaoUpdateRequest;
 use App\Models\Lotacao;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class LotacaoController extends Controller
 {
@@ -12,7 +13,7 @@ class LotacaoController extends Controller
     {
         $lotacoes = Lotacao::paginate(10);
 
-        return response()->json($lotacoes);
+        return JsonResource::collection($lotacoes);
     }
 
     public function show($id)

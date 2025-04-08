@@ -8,7 +8,7 @@ use App\Http\Controllers\ServidorTemporarioController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\LotacaoController;
 use App\Http\Controllers\FotoController;
-use App\Http\Controllers\ServidorEfetivoConsultaController;
+use App\Http\Controllers\UnidadeServidorEfetivoController;
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 
@@ -20,7 +20,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('unidades', UnidadeController::class);
     Route::apiResource('lotacoes', LotacaoController::class);
 
-    Route::get('servidores-efetivos/unidade/{unid_id}', [ServidorEfetivoConsultaController::class, 'index']);
+    Route::get('/unidades/{unidade}/servidores/efetivos', [UnidadeServidorEfetivoController::class, 'index']);
 
     Route::get('endereco-funcional', [EnderecoFuncionalController::class, 'index']);
 

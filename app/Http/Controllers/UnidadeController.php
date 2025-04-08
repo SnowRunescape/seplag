@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Unidade\UnidadeCreateRequest;
 use App\Http\Requests\Unidade\UnidadeUpdateRequest;
 use App\Models\Unidade;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class UnidadeController extends Controller
 {
@@ -12,7 +13,7 @@ class UnidadeController extends Controller
     {
         $unidades = Unidade::paginate(10);
 
-        return response()->json($unidades);
+        return JsonResource::collection($unidades);
     }
 
     public function show(int $id)
