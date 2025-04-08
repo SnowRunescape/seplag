@@ -12,7 +12,7 @@ use App\Http\Controllers\ServidorEfetivoConsultaController;
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 
-Route::middleware(['auth:api', 'cors.restrict'])->group(function () {
+Route::middleware(['auth:api'])->group(function () {
     Route::post('/auth/refresh', [AuthController::class, 'refresh']);
 
     Route::apiResource('servidores/efetivos', ServidorEfetivoController::class);

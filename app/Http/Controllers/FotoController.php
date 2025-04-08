@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\JsonResponse;
 
-class AuthController extends Controller
+class FotoController extends Controller
 {
     /**
      * Realiza a autenticação do usuário e retorna o token JWT.

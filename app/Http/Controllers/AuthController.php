@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
@@ -10,14 +10,14 @@ class AuthController extends Controller
     /**
      * Realiza a autenticação do usuário e retorna o token JWT.
      *
-     * @param  \App\Http\Requests\LoginRequest $request
+     * @param  \App\Http\Requests\Auth\LoginRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -31,7 +31,7 @@ class AuthController extends Controller
      */
     public function refresh(): JsonResponse
     {
-        $newToken = auth()->refresh();
+        $newToken = auth('api')->refresh();
 
         return $this->respondWithToken($newToken);
     }
@@ -47,7 +47,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * 60,
+            'expires_in'   => auth('api')->factory()->getTTL() * 60,
         ]);
     }
 }
