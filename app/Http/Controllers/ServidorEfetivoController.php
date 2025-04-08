@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateServidorEfetivadoAction;
-use App\Actions\UpdateServidorEfetivadoAction;
+use App\Actions\ServidorEfetivo\CreateServidorEfetivadoAction;
+use App\Actions\ServidorEfetivo\UpdateServidorEfetivadoAction;
 use App\Http\Requests\ServidorEfetivoRequest;
 use App\Http\Requests\ServidorEfetivoUpdateRequest;
 use App\Models\Pessoa;
@@ -28,6 +28,7 @@ class ServidorEfetivoController extends Controller
     /**
      * Armazena um novo registro de Servidor Efetivo.
      *
+     * @param  \App\Actions\ServidorEfetivo\CreateServidorEfetivadoAction $action
      * @param  \App\Http\Requests\ServidorEfetivoRequest $request
      * @return \Illuminate\Http\JsonResponse
      */

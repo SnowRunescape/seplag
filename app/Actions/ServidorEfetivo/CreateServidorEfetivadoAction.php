@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\ServidorEfetivo;
 
 use App\Models\Cidade;
 use App\Models\Endereco;
