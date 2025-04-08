@@ -13,13 +13,11 @@ class UpdateServidorEfetivadoAction
     ) {
     }
 
-    public function perform($data): Pessoa
+    public function perform($data)
     {
-        return DB::transaction(function () use ($data) {
+        DB::transaction(function () use ($data) {
             $this->updatePessoa($data);
             $this->updateServidorEfetivo($data);
-
-            return $this->pessoa;
         });
     }
 
