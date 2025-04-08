@@ -24,5 +24,5 @@ Route::middleware(['auth:api'])->group(function () {
 
     Route::get('/unidades/{unidade}/servidores/efetivos', [UnidadeServidorEfetivoController::class, 'index']);
 
-    Route::post('fotos', [FotoController::class, 'upload']);
+    Route::post('fotos', [FotoController::class, 'index']);
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FotoUploadRequest;
+use App\Models\FotoPessoa;
 use Illuminate\Support\Facades\Storage;
 
 class FotoController extends Controller
@@ -13,16 +14,23 @@ class FotoController extends Controller
      * @param  \App\Http\Requests\FotoUploadRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function upload(FotoUploadRequest $request)
+    public function index(FotoUploadRequest $request)
     {
         $links = [];
 
         foreach ($request->file('fotos') as $file) {
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
 
-            $path = Storage::disk('minio')->putFileAs('fotos', $file, $fileName);
+            $path = Storage::disk()->putFileAs('fotos', $file, $fileName);
 
-            $temporaryUrl = Storage::disk('minio')->temporaryUrl($path, now()->addMinutes(5));
+            $temporaryUrl = Storage::disk()->temporaryUrl($path, now()->addMinutes(5));
+
+            FotoPessoa::create([
+                'pes_id'     => $request->pes_id,
+                'fop_data'   => now(),
+                'fop_bucket' => config('filesystems.disks.' . config('filesystems.default') . '.bucket'),
+                'fop_hash'   => $fileName,
+            ]);
 
             $links[] = [
                 'file' => $fileName,
