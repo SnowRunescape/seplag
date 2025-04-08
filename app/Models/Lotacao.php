@@ -10,8 +10,8 @@ class Lotacao extends Model
     protected $primaryKey = 'lot_id';
 
     protected $fillable = [
-        'unid_id',
         'pes_id',
+        'unid_id',
         'lot_data_lotacao',
         'lot_data_remocao',
         'lot_portaria',

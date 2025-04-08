@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LotacaoRequest;
+use App\Http\Requests\Lotacao\LotacaoCreateRequest;
+use App\Http\Requests\Lotacao\LotacaoUpdateRequest;
 use App\Models\Lotacao;
 
 class LotacaoController extends Controller
@@ -10,6 +11,7 @@ class LotacaoController extends Controller
     public function index()
     {
         $lotacoes = Lotacao::paginate(10);
+
         return response()->json($lotacoes);
     }
 
@@ -20,14 +22,14 @@ class LotacaoController extends Controller
         return response()->json($lotacao);
     }
 
-    public function store(LotacaoRequest $request)
+    public function store(LotacaoCreateRequest $request)
     {
         $lotacao = Lotacao::create($request->validated());
 
         return response()->json($lotacao, 201);
     }
 
-    public function update(LotacaoRequest $request, $id)
+    public function update(LotacaoUpdateRequest $request, $id)
     {
         $lotacao = Lotacao::findOrFail($id);
         $lotacao->update($request->validated());
