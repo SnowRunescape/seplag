@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pessoa', function (Blueprint $table) {
             $table->increments('pes_id');
-            $table->string('pes_nome');
+            $table->string('pes_nome', 200);
             $table->date('pes_data_nascimento');
             $table->string('pes_sexo', 9);
             $table->string('pes_mae', 200);
