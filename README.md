@@ -19,6 +19,7 @@ Este repositório entrega uma API RESTful completa, segura e performática, dese
 - Seeders com dados reais de cidades de MT
 - Upload seguro com expiração de links
 - Padrão PSR e responsabilidade separada por classe
+- GitHub Actions para deploy automático
 
 ---
 
@@ -49,8 +50,8 @@ Este repositório entrega uma API RESTful completa, segura e performática, dese
 ## ▶️ Executando o Projeto
 
 ```bash
-git clone https://github.com/seu-usuario/seplag-api.git
-cd seplag-api
+git clone https://github.com/SnowRunescape/seplag.git
+cd seplag
 
 docker-compose up -d --build
 
