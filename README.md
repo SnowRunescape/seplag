@@ -2,6 +2,12 @@
 
 Este repositório entrega uma API RESTful completa, segura e performática, desenvolvida sob medida para a proposta da SEPLAG, atendendo todos os requisitos técnicos, funcionais e operacionais solicitados.
 
+### Dados da Inscrição
+* Numero da Inscricao: 9585
+* BRUNO CAITANO DE ALMEIDA NEVES
+* bruno@snowdev.com.br
+* ANALISTA DE TI - Desenvolvedor PHP - Senior
+
 ## ✅ Tecnologias Utilizadas
 
 - PHP 8.4 + Laravel
