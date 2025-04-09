@@ -53,10 +53,15 @@ docker exec -it php-fpm bash
 php artisan migrate --seed
 ```
 
+Acesse `http://localhost:9001` com o usuario `minio` e senha `minio123` e crie um bucket com o nome `meu-bucket`.
 ## 🧾 Documentação da API
 
 Interface interativa via Swagger:
 
 https://api-project-seplag-br-sp-prod.snowdev.com.br/docs
+
+Interface interativa via Postman:
+
+https://www.postman.com/brunocaiitano/seplag
 
 Coleção Postman incluída com script para salvar o JWT e usar nas próximas requisições
