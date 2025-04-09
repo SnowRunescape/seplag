@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class UnidadeServidorEfetivoResource extends JsonResource
 {
@@ -22,7 +23,15 @@ class UnidadeServidorEfetivoResource extends JsonResource
             ? optional($pessoa->lotacoes->first()->unidade)->unid_nome
             : null;
 
+
         $fotografia = $pessoa->fotos->first() ? $pessoa->fotos->first()->fop_hash : null;
+
+        if ($fotografia) {
+            $fotografia = Storage::disk()->temporaryUrl(
+                "fotos/{$fotografia}",
+                now()->addMinutes(5)
+            );
+        }
 
         return [
             'nome' => $pessoa->pes_nome,
