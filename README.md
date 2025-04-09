@@ -55,12 +55,9 @@ cd seplag
 
 docker-compose up -d --build
 
-# Acesse o container e execute as migrations + seed
-docker exec -it php-fpm bash
-php artisan migrate --seed
+# Execute as migrations + seed
+docker exec -it seplag-api php artisan migrate --seed
 ```
-
-Acesse `http://localhost:9001` com o usuario `minio` e senha `minio123` e crie um bucket com o nome `meu-bucket`.
 ## 🧾 Documentação da API
 
 Interface interativa via Swagger:

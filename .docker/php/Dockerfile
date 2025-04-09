@@ -8,11 +8,15 @@ RUN apt-get update && \
 
 RUN docker-php-ext-install opcache pdo pdo_pgsql zip
 
-ADD opcache.ini "$PHP_INI_DIR/conf.d/opcache.ini"
+ADD ./.docker/php/opcache.ini "$PHP_INI_DIR/conf.d/opcache.ini"
 
 WORKDIR /var/www
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+COPY . .
+
+RUN composer install --no-scripts --no-progress --prefer-dist
 
 EXPOSE 9000
 
