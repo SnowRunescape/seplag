@@ -1,154 +1,503 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "API de Servidores",
-      "version": "1.0.0",
-      "description": "Documenta\u00e7\u00e3o da API para gerenciamento de servidores efetivos, tempor\u00e1rios, unidades e lota\u00e7\u00f5es."
-    },
-    "servers": [
-      {
-        "url": "https://api-project-seplag-br-sp-prod.snowdev.com.br/api"
-      }
-    ],
-    "paths": {
-      "/auth/login": {
-        "post": {
-          "summary": "Login",
-          "tags": [
-            "Autentica\u00e7\u00e3o"
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "email": {
-                      "type": "string"
-                    },
-                    "password": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "email",
-                    "password"
-                  ]
-                }
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Seplag API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api-project-seplag-br-sp-prod.snowdev.com.br/api"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "example": "teste@seplag.mt.gov.br" },
+                  "password": { "type": "string", "example": "123456" }
+                },
+                "required": ["email", "password"]
               }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Login realizado com sucesso"
-            },
-            "401": {
-              "description": "Credenciais inv\u00e1lidas"
-            }
-          }
-        }
-      },
-      "/auth/refresh": {
-        "post": {
-          "summary": "Renova o token JWT",
-          "tags": [
-            "Autentica\u00e7\u00e3o"
-          ],
-          "security": [
-            {
-              "bearerAuth": []
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Token renovado com sucesso"
-            }
-          }
-        }
-      },
-      "/servidores/efetivos": {
-        "get": {
-          "summary": "Lista todos os servidores efetivos",
-          "tags": [
-            "Servidor Efetivo"
-          ],
-          "security": [
-            {
-              "bearerAuth": []
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Lista retornada com sucesso"
             }
           }
         },
-        "post": {
-          "summary": "Cria um novo servidor efetivo",
-          "tags": [
-            "Servidor Efetivo"
-          ],
-          "security": [
-            {
-              "bearerAuth": []
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Criado com sucesso"
-            }
-          }
-        }
-      },
-      "/fotos": {
-        "post": {
-          "summary": "Upload de fotos para o MinIO",
-          "tags": [
-            "Fotos"
-          ],
-          "security": [
-            {
-              "bearerAuth": []
-            }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "multipart/form-data": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "fotos": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "format": "binary"
-                      }
-                    }
-                  },
-                  "required": [
-                    "fotos"
-                  ]
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Upload realizado com sucesso"
-            }
-          }
+        "responses": {
+          "200": { "description": "Successful login" }
         }
       }
     },
-    "components": {
-      "securitySchemes": {
-        "bearerAuth": {
-          "type": "http",
-          "scheme": "bearer",
-          "bearerFormat": "JWT"
+    "/auth/refresh": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Refresh Token",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Token refreshed" }
+        }
+      }
+    },
+    "/servidores/efetivos": {
+      "get": {
+        "tags": ["Servidores Efetivos"],
+        "summary": "Listar Servidores Efetivos",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "200": { "description": "A list of servidores efetivos" }
+        }
+      },
+      "post": {
+        "tags": ["Servidores Efetivos"],
+        "summary": "Criar Servidor Efetivo",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pes_nome": { "type": "string", "example": "Bruno Caitano" },
+                  "pes_data_nascimento": { "type": "string", "example": "1997-12-13" },
+                  "pes_sexo": { "type": "string", "example": "masculino" },
+                  "pes_mae": { "type": "string", "example": "Dilene Caitano" },
+                  "pes_pai": { "type": "string", "example": "Wilson Almeida" },
+                  "se_matricula": { "type": "string", "example": "Teste123" },
+                  "end_tipo_logradouro": { "type": "string", "example": "Avenida" },
+                  "end_logradouro": { "type": "string", "example": "Jose Estevão Troquatro Da silva" },
+                  "end_numero": { "type": "string", "example": "2799" },
+                  "end_bairro": { "type": "string", "example": "Novo Paraiso" },
+                  "cid_nome": { "type": "string", "example": "Cuiabá" },
+                  "cid_uf": { "type": "string", "example": "MT" }
+                },
+                "required": ["pes_nome", "pes_data_nascimento", "pes_sexo", "pes_mae", "pes_pai", "se_matricula", "end_tipo_logradouro", "end_logradouro", "end_numero", "end_bairro", "cid_nome", "cid_uf"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Servidor efetivo criado" }
+        }
+      }
+    },
+    "/servidores/efetivos/{id}": {
+      "get": {
+        "tags": ["Servidores Efetivos"],
+        "summary": "Buscar Servidor Efetivo",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "example": 2 }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Servidor efetivo encontrado" }
+        }
+      },
+      "put": {
+        "tags": ["Servidores Efetivos"],
+        "summary": "Atualizar Servidor Efetivo",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pes_nome": { "type": "string", "example": "Bruno Caitano Alterado" },
+                  "se_matricula": { "type": "string", "example": "123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Servidor efetivo atualizado" }
+        }
+      },
+      "delete": {
+        "tags": ["Servidores Efetivos"],
+        "summary": "Deletar Servidor Efetivo",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "example": 11 }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Servidor efetivo deletado" }
+        }
+      }
+    },
+    "/servidores/temporarios": {
+      "get": {
+        "tags": ["Servidores Temporários"],
+        "summary": "Listar Servidores Temporários",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "200": { "description": "A list of servidores temporários" }
+        }
+      },
+      "post": {
+        "tags": ["Servidores Temporários"],
+        "summary": "Criar Servidor Temporário",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pes_nome": { "type": "string", "example": "Bruno Caitano" },
+                  "pes_data_nascimento": { "type": "string", "example": "1997-12-13" },
+                  "pes_sexo": { "type": "string", "example": "masculino" },
+                  "pes_mae": { "type": "string", "example": "Dilene Caitano" },
+                  "pes_pai": { "type": "string", "example": "Wilson Almeida" },
+                  "st_data_admissao": { "type": "string", "example": "2025-05-01" },
+                  "st_data_demissao": { "type": "string", "example": "2027-05-01" },
+                  "end_tipo_logradouro": { "type": "string", "example": "Avenida" },
+                  "end_logradouro": { "type": "string", "example": "Jose Estevão Troquatro Da silva" },
+                  "end_numero": { "type": "string", "example": "2799" },
+                  "end_bairro": { "type": "string", "example": "Novo Paraiso" },
+                  "cid_nome": { "type": "string", "example": "Cuiabá" },
+                  "cid_uf": { "type": "string", "example": "MT" }
+                },
+                "required": ["pes_nome", "pes_data_nascimento", "pes_sexo", "pes_mae", "pes_pai", "st_data_admissao", "st_data_demissao", "end_tipo_logradouro", "end_logradouro", "end_numero", "end_bairro", "cid_nome", "cid_uf"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Servidor temporário criado" }
+        }
+      }
+    },
+    "/servidores/temporarios/{id}": {
+      "get": {
+        "tags": ["Servidores Temporários"],
+        "summary": "Buscar Servidor Temporário",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "example": 14 }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Servidor temporário encontrado" }
+        }
+      },
+      "put": {
+        "tags": ["Servidores Temporários"],
+        "summary": "Atualizar Servidor Temporário",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pes_nome": { "type": "string", "example": "Bruno Caitano Alterado" },
+                  "st_data_admissao": { "type": "string", "example": "2025-05-01" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Servidor temporário atualizado" }
+        }
+      },
+      "delete": {
+        "tags": ["Servidores Temporários"],
+        "summary": "Deletar Servidor Temporário",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "example": 14 }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Servidor temporário deletado" }
+        }
+      }
+    },
+    "/unidades": {
+      "get": {
+        "tags": ["Unidades"],
+        "summary": "Listar Unidades",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "A list of unidades" }
+        }
+      },
+      "post": {
+        "tags": ["Unidades"],
+        "summary": "Criar Unidade",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "unid_nome": { "type": "string", "example": "Unidade Novo Paraiso" },
+                  "unid_sigla": { "type": "string", "example": "UNP" }
+                },
+                "required": ["unid_nome", "unid_sigla"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Unidade criada" }
+        }
+      }
+    },
+    "/unidades/{id}": {
+      "get": {
+        "tags": ["Unidades"],
+        "summary": "Buscar Unidade",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Unidade encontrada" }
+        }
+      },
+      "put": {
+        "tags": ["Unidades"],
+        "summary": "Atualizar Unidade",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "unid_nome": { "type": "string", "example": "Unidade Novo Paraiso Alterado" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Unidade atualizada" }
+        }
+      },
+      "delete": {
+        "tags": ["Unidades"],
+        "summary": "Deletar Unidade",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Unidade deletada" }
+        }
+      }
+    },
+    "/lotacoes": {
+      "get": {
+        "tags": ["Lotacoes"],
+        "summary": "Listar Lotacoes",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "A list of lotacoes" }
+        }
+      },
+      "post": {
+        "tags": ["Lotacoes"],
+        "summary": "Criar Lotacao",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pes_id": { "type": "string", "example": "2" },
+                  "unid_id": { "type": "string", "example": "1" },
+                  "lot_data_lotacao": { "type": "string", "example": "2025-04-08" },
+                  "lot_data_remocao": { "type": "string", "example": "2027-04-08" },
+                  "lot_portaria": { "type": "string", "example": "C-34" }
+                },
+                "required": ["pes_id", "unid_id", "lot_data_lotacao", "lot_data_remocao", "lot_portaria"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Lotacao criada" }
+        }
+      }
+    },
+    "/lotacoes/{id}": {
+      "get": {
+        "tags": ["Lotacoes"],
+        "summary": "Buscar Lotacao",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Lotacao encontrada" }
+        }
+      },
+      "put": {
+        "tags": ["Lotacoes"],
+        "summary": "Atualizar Lotacao",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "lot_portaria": { "type": "string", "example": "C-ALTERADO" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Lotacao atualizada" }
+        }
+      },
+      "delete": {
+        "tags": ["Lotacoes"],
+        "summary": "Deletar Lotacao",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "example": 2 }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Lotacao deletada" }
+        }
+      }
+    },
+    "/unidades/{id}/servidores/efetivos": {
+      "get": {
+        "tags": ["Unidades"],
+        "summary": "Consultar Servidores Efetivos por Unidade",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Servidores efetivos por unidade" }
+        }
+      }
+    },
+    "/unidades/endereco-funcional": {
+      "get": {
+        "tags": ["Unidades"],
+        "summary": "Listar Endereço Funcional",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "schema": { "type": "string", "example": "bruno" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Endereço funcional listado" }
+        }
+      }
+    },
+    "/fotos": {
+      "post": {
+        "tags": ["Fotos"],
+        "summary": "Upload de Foto",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pes_id": { "type": "string", "example": "2" },
+                  "fotos[]": { "type": "string", "format": "binary" }
+                },
+                "required": ["pes_id", "fotos[]"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Foto uploaded" }
         }
       }
     }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
 }
