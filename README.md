@@ -57,6 +57,6 @@ php artisan migrate --seed
 
 Interface interativa via Swagger:
 
-http://localhost:8080/docs
+https://api-project-seplag-br-sp-prod.snowdev.com.br/docs
 
 Coleção Postman incluída com script para salvar o JWT e usar nas próximas requisições
